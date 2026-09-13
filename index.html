@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的待办清单</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main class="todo-app">
+    <header>
+      <h1>我的待办清单</h1>
+    </header>
+
+    <section class="add-area" aria-label="添加待办">
+      <label for="todo-input">待办事项</label>
+      <div class="input-row">
+        <input id="todo-input" type="text" placeholder="输入待办事项" autocomplete="off">
+        <button id="add-button" type="button">添加</button>
+      </div>
+    </section>
+
+    <section class="list-area" aria-label="待办事项列表">
+      <ul id="todo-list"></ul>
+    </section>
+
+    <footer class="statistics" aria-label="待办统计">
+      <p id="todo-statistics" aria-live="polite">共 0 项，已完成 0 项</p>
+    </footer>
+  </main>
+</body>
+</html>
