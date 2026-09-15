@@ -4,9 +4,24 @@ const input = document.getElementById("todo-input");
 const addButton = document.getElementById("add-button");
 const list = document.getElementById("todo-list");
 const statistics = document.getElementById("todo-statistics");
+const STORAGE_KEY = "todo-list-data";
 
-let todos = [];
-let nextId = 1;
+function loadTodos() {
+  try {
+    const savedTodos = localStorage.getItem(STORAGE_KEY);
+    const parsedTodos = savedTodos ? JSON.parse(savedTodos) : [];
+    return Array.isArray(parsedTodos) ? parsedTodos : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+function saveTodos() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+}
+
+let todos = loadTodos();
+let nextId = todos.reduce((maxId, todo) => Math.max(maxId, Number(todo.id) || 0), 0) + 1;
 
 function render() {
   list.replaceChildren();
@@ -22,6 +37,7 @@ function render() {
     checkbox.setAttribute("aria-label", `完成：${todo.text}`);
     checkbox.addEventListener("change", () => {
       todo.completed = checkbox.checked;
+      saveTodos();
       render();
     });
 
@@ -36,6 +52,7 @@ function render() {
     deleteButton.setAttribute("aria-label", `删除：${todo.text}`);
     deleteButton.addEventListener("click", () => {
       todos = todos.filter((entry) => entry.id !== todo.id);
+      saveTodos();
       render();
     });
 
@@ -57,6 +74,7 @@ addButton.addEventListener("click", () => {
 
   todos.push({ id: nextId++, text, completed: false });
   input.value = "";
+  saveTodos();
   render();
 });
 
