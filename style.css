@@ -41,11 +41,15 @@ h1 {
   gap: 12px;
 }
 
+.search-row {
+  margin-top: 12px;
+}
+
 input, button {
   font: inherit;
 }
 
-#todo-input {
+#todo-input, #search-input {
   flex: 1;
   min-width: 0;
   padding: 10px 12px;
@@ -55,7 +59,7 @@ input, button {
   color: #243e55;
 }
 
-#todo-input::placeholder {
+#todo-input::placeholder, #search-input::placeholder {
   color: #687b8c;
 }
 
@@ -74,6 +78,17 @@ button {
 
 #add-button:hover {
   background: #245b88;
+}
+
+#search-button {
+  flex-shrink: 0;
+  border-color: #b7d3eb;
+  background: #e6f1fb;
+  color: #305d80;
+}
+
+#search-button:hover {
+  background: #d5e8f8;
 }
 
 input:focus-visible, button:focus-visible {

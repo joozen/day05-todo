@@ -2,6 +2,8 @@
 
 const input = document.getElementById("todo-input");
 const addButton = document.getElementById("add-button");
+const searchInput = document.getElementById("search-input");
+const searchButton = document.getElementById("search-button");
 const list = document.getElementById("todo-list");
 const statistics = document.getElementById("todo-statistics");
 const STORAGE_KEY = "todo-list-data";
@@ -22,11 +24,15 @@ function saveTodos() {
 
 let todos = loadTodos();
 let nextId = todos.reduce((maxId, todo) => Math.max(maxId, Number(todo.id) || 0), 0) + 1;
+let searchTerm = "";
 
 function render() {
   list.replaceChildren();
+  const visibleTodos = searchTerm
+    ? todos.filter((todo) => todo.text.includes(searchTerm))
+    : todos;
 
-  todos.forEach((todo) => {
+  visibleTodos.forEach((todo) => {
     const item = document.createElement("li");
     item.className = todo.completed ? "todo-item completed" : "todo-item";
 
@@ -60,8 +66,8 @@ function render() {
     list.append(item);
   });
 
-  const completedCount = todos.filter((todo) => todo.completed).length;
-  statistics.textContent = `共 ${todos.length} 项，已完成 ${completedCount} 项`;
+  const completedCount = visibleTodos.filter((todo) => todo.completed).length;
+  statistics.textContent = `共 ${visibleTodos.length} 项，已完成 ${completedCount} 项`;
 }
 
 addButton.addEventListener("click", () => {
@@ -75,6 +81,18 @@ addButton.addEventListener("click", () => {
   todos.push({ id: nextId++, text, completed: false });
   input.value = "";
   saveTodos();
+  render();
+});
+
+searchButton.addEventListener("click", () => {
+  const keyword = searchInput.value.trim();
+
+  if (!keyword) {
+    window.alert("请输入要搜索的词");
+    return;
+  }
+
+  searchTerm = keyword;
   render();
 });
 
